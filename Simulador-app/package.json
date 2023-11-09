@@ -1,0 +1,14 @@
+{
+  "name": "simulador-app",
+  "version": "1.0.0",
+  "description": "Modelado de incidencia de diabetes tipo 2 basado en la prevalencia de la obesidad",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Equipo3",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.4"
+  }
+}
