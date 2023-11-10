@@ -7,6 +7,10 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false, // Esto permite el uso de require en el proceso de renderizado
+    }
   });
 
   win.loadFile('login.html');
@@ -26,11 +30,11 @@ function createWindow() {
     } else {
       console.log('Script SQL ejecutado correctamente');
       // Mostrar alerta de éxito
-      dialog.showMessageBox({
-        type: 'info',
-        message: 'Conexión a la base de datos establecida con éxito.',
-        buttons: ['OK'],
-      });
+      // dialog.showMessageBox({
+      //   type: 'info',
+      //   message: 'Conexión a la base de datos establecida con éxito.',
+      //   buttons: ['OK'],
+      // });
     }
 
     // Cerrar la conexión a la base de datos después de ejecutar el script
@@ -40,14 +44,3 @@ function createWindow() {
 
 app.whenReady().then(createWindow);
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
