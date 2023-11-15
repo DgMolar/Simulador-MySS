@@ -2,7 +2,7 @@
 
 body {
     margin: 2em;
-    background-color: #4E1CB2;
+    background-color: #F2F2F2;
 }
 
 .form-control {
@@ -34,4 +34,7 @@ body {
 #btn-ingresar:hover{
     background-color: #4E1CB2;
     color: white;
+}
+.card-body{
+    background-color: #A8C6FA;
 }

@@ -8,14 +8,20 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 0px;
     margin-right: 80px;
     margin-left: 80px;
 }
 #logo-facu{
     width: 320px;
-    height: 100px; 
+    height: 100px;
+    margin: 20px 0 20px 0; 
     
+}
+#img-adorno1{
+    width: 70px;
+    height: 80px;
+    align-self: flex-start;
 }
 .container-inicio{
     background-color: #A8C6FA;
@@ -37,4 +43,14 @@ footer {
  .logo {
     max-width: 150px;
     max-height: 100px;
+}
+.btn-volver{
+    background-color: #4E1CB2;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+.btn-volver:hover{
+    background-color: #A8C6FA;
+    color: white;
 }
