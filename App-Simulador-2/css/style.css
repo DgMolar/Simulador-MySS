@@ -1,1 +1,37 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+body {
+    margin: 2em;
+    background-color: #4E1CB2;
+}
+
+.form-control {
+    background-color: #FFDE59;
+    font-size: 15px;
+}
+.container-imgs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-right: 80px;
+    margin-left: 80px;
+}
+#logo-uni{
+    width: 200px;
+    height: 120px; 
+}
+#logo-facu{
+    width: 320px;
+    height: 100px; 
+    
+}
+#btn-ingresar{
+    font-size: 15px;
+    font-weight: bold;
+    color: #4E1CB2;
+}
+#btn-ingresar:hover{
+    background-color: #4E1CB2;
+    color: white;
+}

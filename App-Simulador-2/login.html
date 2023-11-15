@@ -5,29 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
 
-    <title>Loginnn</title>
+    <title>Login</title>
 </head>
 <body>
+    <div class="container-imgs">
+        <img id="logo-uni" src="img/UANL-Emblem.png" alt="UANL">
+        <img id="logo-facu" src="img/logo-facmed-2023.png" alt="FAME">
+    </div>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
-                        Iniciar Sesión
+                    <div class="h2 d-flex justify-content-center card-header bg-warning">
+                        INICIAR SESIÓN
                     </div>
-                    <div class="card-body">
+                    <div class="card-body fw-bold p-5">
                         <form id="login-form">
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="username">Usuario:</label>
                                 <input type="text" class="form-control" id="username" name="usuario" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="password">Contraseña:</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <!-- centrar boton usando bootstrap -->
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary my-2">Iniciar Sesión</button>
+                            <div class="d-flex justify-content-center mt-5">
+                                <button id="btn-ingresar" type="submit" class="btn btn-warning">INGRESAR</button>
                             </div>
                         </form>
                     </div>

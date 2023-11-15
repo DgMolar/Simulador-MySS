@@ -17,6 +17,8 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'login.html'));
+  // Maximizar la ventana
+  mainWindow.maximize();
   mainWindow.webContents.openDevTools();
   console.log('ventana principal creada');
 
