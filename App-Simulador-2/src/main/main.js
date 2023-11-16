@@ -15,8 +15,7 @@ function createWindow() {
       contextIsolation: false,
     },
   });
-
-  mainWindow.loadFile(path.join(__dirname, 'login.html'));
+  mainWindow.loadFile(path.join(__dirname, '../auth/login.html'));
   // Maximizar la ventana
   mainWindow.maximize();
   mainWindow.webContents.openDevTools();
@@ -26,7 +25,7 @@ function createWindow() {
   const userDataPath = app.getPath('userData');
   // Crear la base de datos en el directorio de datos del usuario
   const dbPath = path.join(userDataPath, 'database.db');
-
+  console.log('Ruta del archivo:', dbPath);
   if (!fs.existsSync(dbPath)) {
     console.log('La base de datos no existe. Creándola...');
 
@@ -45,6 +44,8 @@ function createWindow() {
       }
       db.close();
     });
+  } else {
+    console.log('La base de datos ya existe.');
   }
 }
 

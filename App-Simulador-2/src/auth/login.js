@@ -12,7 +12,7 @@ form.addEventListener('submit', async (e) => {
     if (isAuthenticated) {
       alert("Usuario autenticado. Acceso permitido.");
       // transferir a la pagina principal.
-      location.href = 'pages/index.html';
+      location.href = '../render/assets/pages/index.html';
     } else {
       alert("Usuario o contraseña incorrectos");
     }

@@ -2,9 +2,9 @@
   "name": "app-simulador-2",
   "version": "1.0.6",
   "description": "Prueba de app",
-  "main": "main.js",
+  "main": "src/main/main.js",
   "scripts": {
-    "start": "electron main.js",
+    "start": "electron src/main/main.js",
     "build": "electron-builder",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --win --x64"
