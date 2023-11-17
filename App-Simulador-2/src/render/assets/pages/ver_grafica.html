@@ -33,24 +33,25 @@
       <div class="h1 text-center my-3">Grafica:</div>
       <div class="container">
         <div class="row justify-content-end">
-            <div class="col-md-2">
-                <form>
-                    <div class="input-group"> 
-                        <label for="grafica-seleccionada" class="visually text-center">Selecciona el tipo de Gráfia:</label>
-                        <select class="form-select" id="grafica-seleccionada">
-                            <option value="line" selected>Líneal</option>
-                            <option value="bar">Barras</option>
-                            <option value="pie">Pastel</option>
-                        </select>
-                        <label class="input-group-text" for="grafica-seleccionada">
-                            <i class="bi bi-graph-up"></i>
-                        </label>
-                    </div>
-                </form>
-            </div>
+          <div class="col-md-2">
+            <form>
+              <div class="input-group">
+                <label for="grafica-seleccionada" class="visually text-center"
+                  >Selecciona el tipo de Gráfia:</label
+                >
+                <select class="form-select" id="grafica-seleccionada">
+                  <option value="line" selected>Líneal</option>
+                  <option value="bar">Barras</option>
+                  <option value="pie">Pastel</option>
+                </select>
+                <label class="input-group-text" for="grafica-seleccionada">
+                  <i class="bi bi-graph-up"></i>
+                </label>
+              </div>
+            </form>
+          </div>
         </div>
-    </div>
-    
+      </div>
 
       <div class="row">
         <div class="col-2">
@@ -60,12 +61,12 @@
                 Incidencias de casos de Diabetes basado en la prevalencia de la
                 obesidad
               </h5>
-              <p class="mt-3"><b>Total de Semanas registradas:</b></p>
-              <span> 23 Personas</span>
+              <p class="mt-3"><b>Total de Meses registrados:</b></p>
+              <span id="mesesRegistrados"></span>
               <p class="mt-3"><b>RMSE:</b></p>
-              <span> 4345</span>
+              <span id="rmse"></span>
               <p class="mt-3"><b>R. Squared:</b></p>
-              <span>54.34</span>
+              <span id="rSquared"></span>
             </div>
           </div>
         </div>
@@ -74,7 +75,6 @@
         </div>
       </div>
     </div>
-
     <hr class="my-5" />
     <!-- Pie de página -->
     <footer>
@@ -100,5 +100,6 @@
     <!-- Incluye Chart.js -->
     <script src="../../../../node_modules/chart.js/dist/chart.umd.js"></script>
     <script src="../scripts/ver_grafica.js"></script>
+    <!-- <script src="../../../main/databaseQueries.js"></script> -->
   </body>
 </html>
