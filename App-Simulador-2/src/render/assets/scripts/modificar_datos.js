@@ -1,7 +1,6 @@
 const { da } = require("date-fns/locale");
 const { ipcRenderer } = require("electron");
 const { format, getMonth, getYear } = require("date-fns");
-const { actualizarDatosIncidencias } = require('../../../main/databaseQueries');
 
 function consultarDatosIncidencias() {
   ipcRenderer.send("consulta-datos-incidencias");
