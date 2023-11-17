@@ -44,42 +44,37 @@
           </div>
         </div>
         <div class="container col-9">
-          <form class="mx-auto">
+          <form id="addData-form" class="mx-auto">
             <div class="row">
-              <div class="form-group col-md-6">
-                <label for="semana">Semana:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="semana"
-                  placeholder="xx"
-                />
+              <div class="container mt-4">
+                <div class="row justify-content-center">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="fecha">Fecha:</label>
+                      <input type="month" id="fecha" class="form-control" required/>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group col-md-6">
-                <label for="ano">Año:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ano"
-                  placeholder="xx"
-                />
-              </div>
+              
               <div class="form-group col-md-6">
                 <label for="obesidad">Prevalencia de obesidad:</label>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control"
                   id="obesidad"
                   placeholder=""
+                  required
                 />
               </div>
               <div class="form-group col-md-6">
-                <label for="diabetes">Prevalencia de diabetes:</label>
+                <label for="diabetes">Prevalencia de sobrepeso:</label>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control"
                   id="diabetes"
                   placeholder=""
+                  required
                 />
               </div>
               <div
@@ -115,5 +110,6 @@
 
     <!-- Scripts -->
     <script src="../../../../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../scripts/agregar_mes.js"></script>
   </body>
 </html>
