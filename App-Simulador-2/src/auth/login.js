@@ -1,5 +1,20 @@
 const { ipcRenderer } = require('electron');
 
+// Enviar una solicitud de consulta al proceso principal
+ipcRenderer.send('consulta-incidencias');
+
+// Escuchar la respuesta del proceso principal
+ipcRenderer.on('consulta-incidencias-respuesta', (event, response) => {
+  if (response.success) {
+    const data = response.data;
+    // Manipular los datos y mostrarlos en tu interfaz
+    // Por ejemplo, podrías actualizar una tabla HTML con estos datos
+    console.log(data);
+  } else {
+    console.error('Error al consultar incidencias:', response.error);
+  }
+});
+
 const form = document.getElementById('login-form');
 
 form.addEventListener('submit', async (e) => {

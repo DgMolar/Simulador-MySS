@@ -1,9 +1,15 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 const fs = require('fs');
 
 let mainWindow;
+const userDataPath = app.getPath('userData');
+const dbPath = path.join(userDataPath, 'database.db');
+
+app.whenReady().then(() => {
+  createWindow();
+});
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -21,21 +27,14 @@ function createWindow() {
   mainWindow.webContents.openDevTools();
   console.log('ventana principal creada');
 
-  // Obtener la ruta al directorio de datos del usuario
-  const userDataPath = app.getPath('userData');
-  // Crear la base de datos en el directorio de datos del usuario
-  const dbPath = path.join(userDataPath, 'database.db');
-  console.log('Ruta del archivo:', dbPath);
   if (!fs.existsSync(dbPath)) {
     console.log('La base de datos no existe. Creándola...');
 
     const db = new sqlite3.Database(dbPath);
 
-    // Leer el script.sql y ejecutarlo para crear la estructura inicial
     const scriptPath = path.join(__dirname, 'data/script.sql');
     const scriptContent = fs.readFileSync(scriptPath, 'utf-8');
 
-    // Ejecutar el script SQL para crear la estructura inicial
     db.exec(scriptContent, (err) => {
       if (err) {
         console.error('Error al ejecutar el script SQL:', err);
@@ -49,24 +48,19 @@ function createWindow() {
   }
 }
 
-app.whenReady().then(() => {
-  createWindow();
-});
+// Manejo de IPC para la autenticación que ahora está en authHandler.js
+require('./authHandler');
 
-ipcMain.on('auth-request', (event, credentials) => {
-  // Obtener la ruta al directorio de datos del usuario
-  const userDataPath = app.getPath('userData');
-  // Crear la base de datos en el directorio de datos del usuario
-  const dbPath = path.join(userDataPath, 'database.db');
-
+//Consulta de datos de incidencias
+ipcMain.on('consulta-datos-incidencias', (event) => {
   const db = new sqlite3.Database(dbPath);
 
-  db.get('SELECT * FROM usuarios WHERE username = ? AND password = ?', [credentials.username, credentials.password], (err, row) => {
+  db.all('SELECT * FROM datos_incidencias', (err, rows) => {
     if (err) {
-      console.error('Error al autenticar usuario:', err);
-      event.reply('auth-response', { error: err.message });
+      console.error(err.message);
+      event.reply('consulta-datos-incidencias-respuesta', { success: false, error: err.message });
     } else {
-      event.reply('auth-response', { isAuthenticated: !!row });
+      event.reply('consulta-datos-incidencias-respuesta', { success: true, data: rows });
     }
     db.close();
   });

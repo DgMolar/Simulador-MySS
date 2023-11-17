@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `datos_incidencias` (
 
 -- Volcado de datos para la tabla `datos_incidencias`
 INSERT OR IGNORE INTO `datos_incidencias` (`N_Casos_Diabetes`, `P_Obesas_Riesgo`, `Semana`, `Fecha`) VALUES
-(50, 10000, 1, '2023-01-01');
+(50, 10000, 1, '2023-01-01'), (35, 10500, 1, '2023-02-01'),(23, 10570, 1, '2023-03-01');
 
 -- Estructura de tabla para la tabla `margen_error`
 CREATE TABLE IF NOT EXISTS `margen_error` (
