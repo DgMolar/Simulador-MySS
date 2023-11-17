@@ -21,11 +21,10 @@ function createWindow() {
       contextIsolation: false,
     },
   });
-  mainWindow.loadFile(path.join(__dirname, '../auth/login.html'));
-  // Maximizar la ventana
+  mainWindow.setMenu(null);
   mainWindow.maximize();
-  mainWindow.webContents.openDevTools();
-  console.log('ventana principal creada');
+  mainWindow.loadFile(path.join(__dirname, '../auth/login.html'));
+  // mainWindow.webContents.openDevTools();
 
   if (!fs.existsSync(dbPath)) {
     console.log('La base de datos no existe. Creándola...');
@@ -65,3 +64,23 @@ ipcMain.on('consulta-datos-incidencias', (event) => {
     db.close();
   });
 });
+
+
+//Actualizar datos de incidencias
+ipcMain.on('actualizar-datos-incidencias', (event, updatedData) => {
+  const { idModificar, obesidad, diabetes } = updatedData;
+
+  const db = new sqlite3.Database(dbPath);
+  const query = `UPDATE datos_incidencias SET N_Casos_Diabetes = ?, P_Obesas_Riesgo = ? WHERE iddato = ?`;
+
+  db.run(query, [diabetes, obesidad, idModificar], function (err) {
+    if (err) {
+      console.error(err.message);
+      event.reply('actualizar-datos-incidencias-respuesta', { success: false, error: err.message });
+    } else {
+      event.reply('actualizar-datos-incidencias-respuesta', { success: true });
+    }
+    db.close();
+  });
+});
+
