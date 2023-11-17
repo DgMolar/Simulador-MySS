@@ -1,0 +1,15 @@
+#canvas-container{
+    max-width: 900px;
+    margin: 20px auto; /* Centra el contenedor */
+    display: flex;
+    align-items: center;
+    text-align: center; /* Centra el canvas horizontalmente */
+
+}
+canvas{
+    max-width: 100%;
+    max-height: 100%;
+    border: 3px solid black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+}

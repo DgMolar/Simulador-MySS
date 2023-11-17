@@ -32,7 +32,7 @@ function createWindow() {
     const db = new sqlite3.Database(dbPath);
 
     // Leer el script.sql y ejecutarlo para crear la estructura inicial
-    const scriptPath = path.join(__dirname, 'script.sql');
+    const scriptPath = path.join(__dirname, 'data/script.sql');
     const scriptContent = fs.readFileSync(scriptPath, 'utf-8');
 
     // Ejecutar el script SQL para crear la estructura inicial
