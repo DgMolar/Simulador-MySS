@@ -57,3 +57,17 @@ footer {
     background-color: #A8C6FA;
     color: white;
 }
+
+.cards-bg{
+    background-color: #75A9F9;
+}
+
+#containerManoCorazon{
+    /* alinear imagen a la derecha. */
+    display: flex;
+    justify-content: flex-end;
+}
+#manoCorazon{
+    width: 230px;
+    height: 250px;
+}

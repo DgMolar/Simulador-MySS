@@ -61,7 +61,7 @@ function tablaEditarDatos({
   P_Obesas_Riesgo,
 }) {
   const fechaFormateada = new Date(Fecha + 1);
-  const mes = format(fechaFormateada, "MMMM"); // Obtener el mes
+  const mes = format(fechaFormateada, "MM"); // Obtener el mes
   const anio = format(fechaFormateada, "yyyy"); // Obtener el año
 
   return `
