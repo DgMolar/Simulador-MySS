@@ -31,4 +31,6 @@ INSERT OR IGNORE INTO `usuarios` (`username`, `password`) VALUES
 ('admin', '123'),
 ('dgmolar', 'admin'),
 ('emma', 'admin'),
-('karen', 'admin');
+('karen', 'admin'),
+('arely', 'admin'),
+('luis', 'admin');
