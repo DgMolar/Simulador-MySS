@@ -5,8 +5,6 @@ const csv = require("csvtojson");
 // Para guardar data.json
 const fs = require("fs");
 const path = require("path");
-const remote = require("electron");
-const app = remote.app;
 
 const { processJson } = require("../../../preprossecing/preprocessing.js");
 const { generateChart } = require("../../../graphs/graphs.js");
@@ -17,31 +15,32 @@ const predictionContainer = document.getElementById("prediction-container");
 
 // cuando el documento se cargue, se ejecutara la funcion
 document.addEventListener("DOMContentLoaded", () => {
-  // Verificar si el archivo datos.json existe
-  const filePath = path.resolve(__dirname, "../../../data/datos.json");
+  // ipcRenderer.invoke para obtener la ruta del directorio de datos del usuario
+  ipcRenderer.invoke("get-user-data-path").then((userDataPath) => {
+    const filePath = path.join(userDataPath, "datos.json");
 
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      // Si el archivo no existe, muestra una alerta y termina la ejecución
-      alert("No hay datos cargos, por favor cargue los datos primero.");
-      window.location.href = "actualizar_analisis.html";
-    }
-
-    // Si el archivo existe, leer su contenido como JSON
-    fs.readFile(filePath, "utf8", (err, data) => {
+    fs.access(filePath, fs.constants.F_OK, (err) => {
       if (err) {
-        console.error("Error al leer el archivo:", err);
+        // Si el archivo no existe, muestra una alerta y termina la ejecución
+        alert("No hay datos cargados en el sistema. Favor de cargar datos.");
+        window.location.href = "actualizar_analisis.html";
         return;
       }
 
-      try {
-        // Intenta parsear el contenido del archivo JSON
-        const json = JSON.parse(data);
-        // console.log("Datos extraídos del archivo:", json);
-        verDatosGrafica(json);
-      } catch (error) {
-        console.error("Error al parsear el archivo JSON:", error);
-      }
+      // Si el archivo existe, leer su contenido como JSON
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) {
+          console.error("Error al leer el archivo:", err);
+          return;
+        }
+
+        try {
+          const json = JSON.parse(data);
+          verDatosGrafica(json);
+        } catch (error) {
+          console.error("Error al parsear el archivo JSON:", error);
+        }
+      });
     });
   });
 });
