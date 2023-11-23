@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Modelo de Ornalga</h1>
+      <div>
+        <h2>Subir archivo CSV</h2>
+
+        <label for="file-input">Selecciona un archivo CSV:</label>
+        <input
+          type="file"
+          name="archivo"
+          id="file-input"
+          accept=".csv"
+          required
+        />
+        <button id="file-button">read</button>
+        <br />
+      </div>
+
+      <div id="plot-container" style="width: 500px; margin: 0%">
+        <canvas id="actual-plot"></canvas>
+      </div>
+      <div id="prediction-container" style="width: 500px">
+        <canvas id="prediction-plot"></canvas>
+      </div>
+      <div>
+        <p id="texto-prediccion"></p>
+        <p id="texto-funcion"></p>
+      </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
