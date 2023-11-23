@@ -1,95 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Agrega tu propia hoja de estilos personalizada -->
-    <link rel="stylesheet" href="../styles/index.css">
-    <link rel="stylesheet" href="../../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link
+      rel="stylesheet"
+      href="../../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+    />
     <title>Simulador de Incidencias</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container-imgs">
-        <img id="logo-facu" src="../images/logo-facmed-2023.png" alt="logo-facmed">
-        <img id="img-adorno1" src="../images/Imagen1.png" alt="logo-facmed">
+      <img
+        id="logo-facu"
+        src="../images/logo-facmed-2023.png"
+        alt="logo-facmed"
+      />
+      <img id="img-adorno1" src="../images/Imagen1.png" alt="logo-facmed" />
     </div>
-    
+
     <!-- Botón de inicio -->
     <div class="container mt-4 mb-4 d-flex justify-content-end">
-        <a href="../../../auth/login.html" class="btn btn-volver">
-            <i class="fa-solid fa-door-open"></i> Cerrar sesiòn
-        </a>
+      <a href="../../../auth/login.html" class="btn btn-volver">
+        <i class="fa-solid fa-door-open"></i> Cerrar sesiòn
+      </a>
     </div>
     <!-- Contenido principal -->
     <div class="container-inicio mt-1">
-        <div class="row mx-5">
-            <div class="col-6">
-                <h3 class="h3 mt-5">Sistema de modelado de la incidencia de la diabetes basado en la prevalencia de la obesidad.</h3>
-                <p class="ms-4"> Sistema para modelar las incidencias de la diabetes tipo 2 en la poblacion de Nuevo León, México, basado en la prevalencia de la obesidad. </p>
-            </div>
-            <div id="containerManoCorazon" class="col-4">
-                <img id="manoCorazon" src="../images/mano-corazon.png" alt="mano-corazon">
-            </div>
+      <div class="row mx-5">
+        <div class="col-6">
+          <h3 class="h3 mt-5">
+            Sistema de modelado de la incidencia de la diabetes basado en la
+            prevalencia de la obesidad.
+          </h3>
+          <p class="ms-4">
+            Sistema para modelar las incidencias de la diabetes tipo 2 en la
+            poblacion de Nuevo León, México, basado en la prevalencia de la
+            obesidad.
+          </p>
         </div>
+        <div id="containerManoCorazon" class="col-4">
+          <img
+            id="manoCorazon"
+            src="../images/mano-corazon.png"
+            alt="mano-corazon"
+          />
+        </div>
+      </div>
     </div>
     <div class="container my-3">
-        <div class="row">
-            <div class="col-6">
-                <div class="card card-a text-white mb-3" style="max-width: 100%;">
-                    <div class="card-body  text-center">
-                        <h5 class="card-title">Visualizar Modelo</h5>
-                        <p class="card-text">Modelo de la incidencia de casos de diabetes basado en la prevalencia de la obesidad.</p>
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-primary">
-                                <a href="ver_grafica.html" class="btn btn-primary">
-                                    <i class="fa-solid fa-chart-line"></i> Ver Gráfica
-                                </a>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="card card-b text-white mb-3" style="max-width: 100%;">
-                    <div class="card-body  text-center">
-                        <h5 class="card-title">Actualizar modelo</h5>
-                        <p class="card-text">Registrar o modificar la información relevante al modelo.</p>
-                        <div class="d-flex justify-content-center pt-4">
-                            <button type="button" class="btn btn-primary">
-                                <a href="actualizar_analisis.html" class="btn btn-primary">
-                                    <i class="fa-solid fa-chart-pie"></i> Ir a análisis
-                                </a>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>    
-    <!-- Linea separadora -->
-    <hr class="mx-5">
-
-    <!-- Pie de página -->
-    <footer>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-4">
-              <!-- Logo izquierdo -->
-              <img src="../images/UANL-Emblem.png" alt="Logo 1" class="logo">
-            </div>
-            <div class="col-md-4">
-              <!-- Texto central -->
-              <p>Clinica Universitaria</p>
-              <p>Modelado y Simulación de Sistemas</p>
-            </div>
-            <div class="col-md-4">
-              <!-- Logo derecho -->
-              <img src="../images/logo-fime.png" alt="Logo 2" class="logo">
+      <div class="row">
+        <div class="col-6">
+          <div class="card card-a text-white mb-3" style="max-width: 100%">
+            <div class="card-body text-center">
+              <h5 class="card-title">Visualizar Modelo</h5>
+              <p class="card-text">
+                Modelo de la incidencia de casos de diabetes basado en la
+                prevalencia de la obesidad.
+              </p>
+              <div class="d-flex justify-content-center">
+                <a href="ver_grafica.html" class="btn btn-volver">
+                  <i class="fa-solid fa-chart-line"></i> Ver Gráfica
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </footer>
+        <div class="col-6">
+          <div class="card card-b text-white mb-3" style="max-width: 100%">
+            <div class="card-body text-center">
+              <h5 class="card-title">Actualizar datos</h5>
+              <p class="card-text">
+                Registrar o modificar la información relevante al modelo.
+              </p>
+              <div class="d-flex justify-content-center pt-4">
+                <a href="actualizar_analisis.html" class="btn btn-volver">
+                  <i class="fa-solid fa-chart-pie"></i> Ir a análisis
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Linea separadora -->
+    <hr class="mx-5" />
 
-      <script src="../../../../node_modules/jquery/dist/jquery.min.js"></script>
-</body>
+    <!-- Pie de página -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- Logo izquierdo -->
+            <img src="../images/UANL-Emblem.png" alt="Logo 1" class="logo" />
+          </div>
+          <div class="col-md-4">
+            <!-- Texto central -->
+            <p>Clinica Universitaria</p>
+            <p>Modelado y Simulación de Sistemas</p>
+          </div>
+          <div class="col-md-4">
+            <!-- Logo derecho -->
+            <img src="../images/logo-fime.png" alt="Logo 2" class="logo" />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../../../../node_modules/jquery/dist/jquery.min.js"></script>
+  </body>
 </html>
