@@ -46,21 +46,10 @@ function createWindow() {
   } else {
     console.log("La base de datos ya existe.");
   }
+  ipcMain.handle('get-user-data-path', (event) => {
+    return app.getPath('userData');
+  });
 }
 
 // Manejo de IPC para la autenticación que ahora está en authHandler.js
 require("./authHandler");
-
-
-ipcMain.handle("save-data", (event, jsonData) => {
-  const dataFilePath = path.join(app.getPath("userData"), "data.json");
-
-  try {
-    fs.writeFileSync(dataFilePath, JSON.stringify(jsonData));
-    console.log("Datos guardados en", dataFilePath);
-    return "success";
-  } catch (error) {
-    console.error("Error al guardar los datos:", error);
-    return "error";
-  }
-});

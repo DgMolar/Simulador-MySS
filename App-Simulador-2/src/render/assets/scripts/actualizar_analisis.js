@@ -3,10 +3,10 @@ const Chart = require("chart.js/auto");
 const regression = require("regression");
 const csv = require("csvtojson");
 // Para guardar data.json
-const fs = require("fs");
-const path = require("path");
 const remote = require("electron");
 const app = remote.app;
+const fs = require("fs");
+const path = require("path");
 
 const { processJson } = require("../../../preprossecing/preprocessing.js");
 const { generateChart } = require("../../../graphs/graphs.js");
@@ -41,54 +41,65 @@ fileButton.addEventListener("click", async (event) => {
         total: "number",
       },
     }).fromString(csvString);
-    // Creacion de data.son
-    const dataFolderPath = path.join(__dirname, "../../../data");
-    const dataFilePath = path.join(dataFolderPath, "datos.json");
-    const jsonString = JSON.stringify(json, null, 2);
 
-    if (!fs.existsSync(dataFolderPath)) {
-      fs.mkdirSync(dataFolderPath, { recursive: true });
-    }
+    ipcRenderer.invoke("get-user-data-path").then((userDataPath) => {
+      const dataFilePath = path.join(userDataPath, "datos.json");
 
-    fs.writeFile(dataFilePath, jsonString, (err) => {
-      if (err) {
-        console.error("Error al escribir datos.json:", err);
-      } else {
-        console.log("Archivo datos.json escrito correctamente.");
-        window.location.reload();
-      }
+      // Verificar si el archivo datos.json existe
+      fs.access(dataFilePath, fs.constants.F_OK, (err) => {
+        if (err) {
+          // El archivo no existe, entonces lo creamos
+          fs.writeFile(dataFilePath, JSON.stringify(json, null, 2), (err) => {
+            if (err) {
+              console.error("Error al crear el archivo datos.json:", err);
+            } else {
+              console.log("Archivo datos.json creado correctamente.");
+              window.location.reload();
+            }
+          });
+        } else {
+          // El archivo existe, sobrescribimos los datos
+          fs.writeFile(dataFilePath, JSON.stringify(json, null, 2), (err) => {
+            if (err) {
+              console.error("Error al sobrescribir datos.json:", err);
+            } else {
+              console.log("Archivo datos.json sobrescrito correctamente.");
+              window.location.reload();
+            }
+          });
+        }
+      });
     });
-    // Fin de la creación de datos.json
   };
 });
 
 // cuando el documento se cargue, se ejecutara la funcion
 document.addEventListener("DOMContentLoaded", () => {
-  // Verificar si el archivo datos.json existe
-  const filePath = path.resolve(__dirname, "../../../data/datos.json");
+  // ipcRenderer.invoke para obtener la ruta del directorio de datos del usuario
+  ipcRenderer.invoke("get-user-data-path").then((userDataPath) => {
+    const filePath = path.join(userDataPath, "datos.json");
 
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      // Si el archivo no existe, muestra una alerta y termina la ejecución
-      alert("Favor de cargar datos del CSV");
-      return;
-    }
-
-    // Si el archivo existe, leer su contenido como JSON
-    fs.readFile(filePath, "utf8", (err, data) => {
+    fs.access(filePath, fs.constants.F_OK, (err) => {
       if (err) {
-        console.error("Error al leer el archivo:", err);
+        // Si el archivo no existe, muestra una alerta y termina la ejecución
+        alert("Favor de cargar datos del CSV");
         return;
       }
 
-      try {
-        // Intenta parsear el contenido del archivo JSON
-        const json = JSON.parse(data);
-        // console.log("Datos extraídos del archivo:", json);
-        verDatosGrafica(json);
-      } catch (error) {
-        console.error("Error al parsear el archivo JSON:", error);
-      }
+      // Si el archivo existe, leer su contenido como JSON
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) {
+          console.error("Error al leer el archivo:", err);
+          return;
+        }
+
+        try {
+          const json = JSON.parse(data);
+          verDatosGrafica(json);
+        } catch (error) {
+          console.error("Error al parsear el archivo JSON:", error);
+        }
+      });
     });
   });
 });
