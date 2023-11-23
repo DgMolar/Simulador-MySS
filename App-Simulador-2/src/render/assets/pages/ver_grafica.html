@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Agrega tu propia hoja de estilos personalizada -->
     <link rel="stylesheet" href="../styles/index.css" />
-    <link rel="stylesheet" href="../styles/ver_grafica-style.css" />
+    <!-- <link rel="stylesheet" href="../styles/ver_grafica-style.css" /> -->
     <link
       rel="stylesheet"
       href="../../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css"
@@ -31,47 +31,72 @@
     <hr class="mx-5" />
     <div class="container">
       <div class="h1 text-center my-3">Gráfica:</div>
-      <div class="container">
-        <div class="row justify-content-end">
-          <div class="col-md-2">
-            <form>
-              <div class="input-group">
-                <label for="grafica-seleccionada" class="visually text-center"
-                  >Selecciona el tipo de Gráfia:</label
-                >
-                <select class="form-select" id="grafica-seleccionada">
-                  <option value="line" selected>Líneal</option>
-                  <option value="bar">Barras</option>
-                  <option value="pie">Pastel</option>
-                </select>
-                <label class="input-group-text" for="grafica-seleccionada">
-                  <i class="bi bi-graph-up"></i>
-                </label>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
       <div class="row">
         <div class="col-3">
-          <div class="card text-white bg-primary mb-3" style="max-width: 100%">
+          <div class="card text-white cards-bg mb-3" style="max-width: 100%">
             <div class="card-body">
-              <h5 class="card-title h5 text-center">
-                Incidencias de casos de Diabetes basado en la prevalencia de la
-                obesidad
+              <h5 class="card-title text-center">
+                Incidencias de casos de diabetes basado en la prevalencia de la
+                obesidad.
               </h5>
-              <p><b>Total de registrados:</b></p>
-              <span id="mesesRegistrados" class="bg-light text-dark px-5"></span>
-              <p class="mt-4"><b>RMSE:</b></p>
-              <span id="rmse" class="bg-light text-dark px-5"></span>
-              <p class="mt-4"><b>R. Squared:</b></p>
-              <span id="rSquared" class="bg-light text-dark px-5"></span>
+              <div class="data-form mt-4">
+                <div class="form-group">
+                  <label
+                    for="trimestresRegistrados"
+                    class="h5 font-weight-bold text-center"
+                  >
+                    Modelo actual:
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control text-center"
+                    id="modeloActual"
+                    readonly
+                  />
+                </div>
+                <div class="form-group">
+                  <label
+                    for="trimestresRegistrados"
+                    class="h5 font-weight-bold text-center"
+                  >
+                    Para el periodo de:
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control text-center"
+                    id="periodoIncidencia"
+                    value="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label
+                    for="trimestresRegistrados"
+                    class="h5 font-weight-bold text-center"
+                  >
+                    Se predice la siguiente incidencia:
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control text-center"
+                    id="prediccionIncidencia"
+                    readonly
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div id="canvas-container" class="col-9">
-          <canvas id="myChart"></canvas>
+          <hr />
+          <div id="app">
+            <div id="prediction-container" style="width: 500px">
+              <canvas id="prediction-plot"></canvas>
+            </div>
+            <div>
+              <p id="texto-prediccion"></p>
+              <p id="texto-funcion"></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

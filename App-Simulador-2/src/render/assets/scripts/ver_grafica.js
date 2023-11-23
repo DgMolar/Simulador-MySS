@@ -1,86 +1,132 @@
 const { ipcRenderer } = require("electron");
+const Chart = require("chart.js/auto");
+const regression = require("regression");
+const csv = require("csvtojson");
+// Para guardar data.json
+const fs = require("fs");
+const path = require("path");
+const remote = require("electron");
+const app = remote.app;
 
-function consultarDatosIncidencias() {
-  ipcRenderer.send("consulta-datos-incidencias");
-}
-consultarDatosIncidencias();
-ipcRenderer.on("consulta-datos-incidencias-respuesta", (event, response) => {
-  if (response.success) {
-    const data = response.data;
-    console.log("Datos de incidencias:", data);
-    const chartData = prepararChartData(data);
-    updateChartData(chartData);
-  } else {
-    console.error("Error al consultar datos de incidencias:", response.error);
-  }
+const { processJson } = require("../../../preprossecing/preprocessing.js");
+const { generateChart } = require("../../../graphs/graphs.js");
+
+const fileInput = document.getElementById("file-input");
+const fileButton = document.getElementById("file-button");
+const predictionContainer = document.getElementById("prediction-container");
+
+// cuando el documento se cargue, se ejecutara la funcion
+document.addEventListener("DOMContentLoaded", () => {
+  // Verificar si el archivo datos.json existe
+  const filePath = path.resolve(__dirname, "../../../data/datos.json");
+
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      // Si el archivo no existe, muestra una alerta y termina la ejecución
+      alert("No hay datos cargos, por favor cargue los datos primero.");
+      window.location.href = "actualizar_analisis.html";
+    }
+
+    // Si el archivo existe, leer su contenido como JSON
+    fs.readFile(filePath, "utf8", (err, data) => {
+      if (err) {
+        console.error("Error al leer el archivo:", err);
+        return;
+      }
+
+      try {
+        // Intenta parsear el contenido del archivo JSON
+        const json = JSON.parse(data);
+        // console.log("Datos extraídos del archivo:", json);
+        verDatosGrafica(json);
+      } catch (error) {
+        console.error("Error al parsear el archivo JSON:", error);
+      }
+    });
+  });
 });
 
-function prepararChartData(data) {
-  totalMeses = data.length;
-  console.log("Total de meses: ", totalMeses);
-  datosTotales(totalMeses);
-  // Aquí, haz la lógica para preparar los datos para el gráfico
-  const valores = data.map(
-    (item) => (item.N_Casos_Diabetes / item.P_Obesas_Riesgo) * 1000
-  );
-  return {
-    labels: data.map((item) => `${item.Fecha}`),
-    datasets: [
+
+function verDatosGrafica(json) {
+  const datosPreparadosParaGraficar = processJson(json);
+
+    console.log(datosPreparadosParaGraficar);
+
+    
+
+    const datosPreparadosParaRegresion = datosPreparadosParaGraficar.map(
+      (item) => [item.x, item.y]
+    );
+
+    const resultadoRegresion = regression.polynomial(
+      datosPreparadosParaRegresion,
       {
-        label: "Incidencia de personas",
-        data: valores,
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 5,
-      },
-    ],
-  };
-}
+        order: 4,
+        precision: 5,
+      }
+    );
 
-function updateChartData(chartData) {
-  // Aquí actualiza el gráfico con los nuevos datos
-  const selectElement = document.getElementById("grafica-seleccionada");
-  const ctx = document.getElementById("myChart").getContext("2d");
-  const myChart = new Chart(ctx, {
-    type: selectElement.value,
-    data: chartData,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
+    console.log(resultadoRegresion);
+
+    const a = resultadoRegresion.equation[0];
+    const b = resultadoRegresion.equation[1];
+    const c = resultadoRegresion.equation[2];
+    const d = resultadoRegresion.equation[3];
+    const f = resultadoRegresion.equation[4];
+
+    const predict = (x) => {
+      return a * x ** 4 + b * x ** 3 + c * x ** 2 + d * x + f;
+    };
+
+    console.log(
+      `La incidencia del siguiente trimestre es: ${predict(
+        datosPreparadosParaGraficar.length + 1
+      )}`
+    );
+
+    const datosDelAlgoritmoFormateadosParaGraficar =
+      resultadoRegresion.points.map((item) => {
+        return { x: item[0], y: item[1] };
+      });
+
+    const predictChart = generateChart(
+      [
+        {
+          label: "Prediccion de diabetes",
+          data: datosDelAlgoritmoFormateadosParaGraficar,
+          color: "rgba(54, 162, 235, 1)",
         },
-      },
-    },
-  });
+        {
+          label: "Incidencia de diabetes",
+          data: datosPreparadosParaGraficar,
+          color: "rgba(255, 99, 132, 1)",
+        },
+      ],
+      -100,
+      1000
+    );
 
-  selectElement.addEventListener("change", function () {
-    myChart.config.type = this.value;
-    myChart.update();
-  });
+    const predictionCanvas = document.getElementById("prediction-plot");
+    const existingPredictionChart = Chart.getChart(predictionCanvas);
+
+    if (existingPredictionChart) {
+      existingPredictionChart.destroy();
+    }
+
+    new Chart(predictionCanvas, predictChart);
+
+    console.log(
+      `La incidencia del siguiente trimestre es ${predict(
+        datosPreparadosParaGraficar.length + 1
+      )}`
+    );
+
+    console.log(`La funcion de regresion es: ${resultadoRegresion.string}`);
 }
 
-function datosTotales(totalMeses) {
-  let mesesRegistrados = totalMeses;
-  let rmse = 435;
-  let rSquared = 54.34;
-  document.getElementById("mesesRegistrados").textContent =
-    mesesRegistrados + " Meses";
-  document.getElementById("rmse").textContent = rmse.toString();
-  document.getElementById("rSquared").textContent = rSquared.toString();
+function datosTotales(totalTrimestres) {
+  let mesesRegistrados = totalTrimestres;
+  document.getElementById("trimestresRegistrados").value =
+    mesesRegistrados + " Trimestres";
 }
 
-module.exports = { consultarDatosIncidencias };
