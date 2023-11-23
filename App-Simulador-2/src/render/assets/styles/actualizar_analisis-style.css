@@ -1,0 +1,25 @@
+/* Estilos CSS */
+
+/* Ajustes para los contenedores de gráficos */
+.plot-container,
+.prediction-container {
+  width: 500px;
+  margin: 0 auto; /* Centra el contenedor */
+}
+
+/* Estilos para los textos */
+.text-container {
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+/* Ajustes responsivos para tamaños pequeños */
+@media (max-width: 768px) {
+  .plot-container,
+  .prediction-container {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+  

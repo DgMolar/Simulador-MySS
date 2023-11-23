@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, ipcRenderer } = require("electron");
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 const fs = require("fs");
@@ -15,17 +15,17 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    resizable: false,
+    // resizable: false,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
       contextIsolation: false,
     },
   });
-  mainWindow.setMenu(null);
+  // mainWindow.setMenu(null);
   mainWindow.maximize();
   mainWindow.loadFile(path.join(__dirname, "../auth/login.html"));
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   if (!fs.existsSync(dbPath)) {
     console.log("La base de datos no existe. Creándola...");
@@ -51,71 +51,16 @@ function createWindow() {
 // Manejo de IPC para la autenticación que ahora está en authHandler.js
 require("./authHandler");
 
-//Consulta de datos de incidencias
-ipcMain.on("consulta-datos-incidencias", (event) => {
-  const db = new sqlite3.Database(dbPath);
 
-  db.all("SELECT * FROM datos_incidencias", (err, rows) => {
-    if (err) {
-      console.error(err.message);
-      event.reply("consulta-datos-incidencias-respuesta", {
-        success: false,
-        error: err.message,
-      });
-    } else {
-      event.reply("consulta-datos-incidencias-respuesta", {
-        success: true,
-        data: rows,
-      });
-    }
-    db.close();
-  });
-});
+ipcMain.handle("save-data", (event, jsonData) => {
+  const dataFilePath = path.join(app.getPath("userData"), "data.json");
 
-//Actualizar datos de incidencias
-ipcMain.on("actualizar-datos-incidencias", (event, updatedData) => {
-  const { idModificar, obesidad, diabetes } = updatedData;
-
-  const db = new sqlite3.Database(dbPath);
-  const query = `UPDATE datos_incidencias SET N_Casos_Diabetes = ?, P_Obesas_Riesgo = ? WHERE iddato = ?`;
-
-  db.run(query, [diabetes, obesidad, idModificar], function (err) {
-    if (err) {
-      console.error(err.message);
-      event.reply("actualizar-datos-incidencias-respuesta", {
-        success: false,
-        error: err.message,
-      });
-    } else {
-      event.reply("actualizar-datos-incidencias-respuesta", { success: true });
-    }
-    db.close();
-  });
-});
-
-//Insertar datos de incidencias solo si no existen datos con la misma Fecha
-ipcMain.on("insertar-datos-incidencias", (event, newData) => {
-  const { obesidad, diabetes, fecha } = newData;
-
-  const db = new sqlite3.Database(dbPath);
-  const query = `INSERT INTO datos_incidencias (Fecha, N_Casos_Diabetes, P_Obesas_Riesgo) SELECT ?, ?, ? WHERE NOT EXISTS (SELECT * FROM datos_incidencias WHERE Fecha = ?)`;
-  db.run(query, [fecha, obesidad, diabetes, fecha], function (err) {
-    if (err) {
-      console.error(err.message);
-      event.reply("insertar-datos-incidencias-respuesta", {
-        success: false,
-        error: err.message,
-      });
-    } else {
-      if (this.changes === 0) {
-        event.reply("insertar-datos-incidencias-respuesta", {
-          success: false,
-          error: "La fecha ya ha sido registrada.",
-        });
-      } else {
-        event.reply("insertar-datos-incidencias-respuesta", { success: true });
-      }
-    }
-    db.close();
-  });
+  try {
+    fs.writeFileSync(dataFilePath, JSON.stringify(jsonData));
+    console.log("Datos guardados en", dataFilePath);
+    return "success";
+  } catch (error) {
+    console.error("Error al guardar los datos:", error);
+    return "error";
+  }
 });

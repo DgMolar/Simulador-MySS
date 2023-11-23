@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Agrega tu propia hoja de estilos personalizada -->
     <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/actualizar_analisis-style.css" />
     <link
       rel="stylesheet"
       href="../../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css"
@@ -36,40 +37,71 @@
           <div class="card text-white cards-bg mb-3" style="max-width: 100%">
             <div class="card-body">
               <h5 class="card-title text-center">
-                Boletín Epidemiológico Sistema Nacional de Vigilancia de
-                Epidemiologica Sistema único de información.
+                Actualización del modelo:
+                <p class="h5">
+                  Incidencia de casos de diabetes basado en la prevalencia de la
+                  obesidad.
+                </p>
               </h5>
-              <p><b>Total de registrados:</b></p>
-              <span id="mesesRegistrados" class="bg-light text-dark px-5"></span>
-              <p class="mt-4"><b>RMSE:</b></p>
-              <span id="rmse" class="bg-light text-dark px-5"></span>
-              <p class="mt-4"><b>R. Squared:</b></p>
-              <span id="rSquared" class="bg-light text-dark px-5"></span>
+              <div class="data-form mt-4">
+                <div class="form-group">
+                  <label
+                    for="trimestresRegistrados"
+                    class="h5 font-weight-bold text-center"
+                  >
+                    Total de trimestres registrados:
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control text-center"
+                    id="trimestresRegistrados"
+                    readonly
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div id="canvas-container" class="col-9">
           <hr />
-          <!-- tabla de 3 columnas y 12 filas -->
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Mes</th>
-                <th>Año</th>
-                <th>Prevalencia de Obesidad</th>
-                <th>Prevalencia de Sobrepeso</th>
-                <th>Modificar</th>
-              </tr>
-            </thead>
-            <tbody id="tablaDatos">
-              
-            </tbody>
-          </table>
-          <div class="row mt-3 justify-content-end">
-            <div class="col-2 text-md-right">
-              <a href="agregar_mes.html" class="btn btn-primary"
-                >Agregar datos del mes</a
-              >
+          <div id="app">
+            <div class="container mt-4">
+              <form>
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="custom-file-input"
+                        id="file-input"
+                        name="archivo"
+                        accept=".csv"
+                        required
+                      />
+                    </div>
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-primary ms-5"
+                        type="submit"
+                        id="file-button"
+                      >
+                        <i class="fas fa-cloud-upload-alt"></i> Cargar datos
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <hr />
+            <div id="plot-container" style="width: 500px; margin: 0%">
+              <canvas id="actual-plot"></canvas>
+            </div>
+            <div id="prediction-container" style="width: 500px">
+              <canvas id="prediction-plot"></canvas>
+            </div>
+            <div>
+              <p id="texto-prediccion"></p>
+              <p id="texto-funcion"></p>
             </div>
           </div>
         </div>
@@ -98,6 +130,7 @@
 
     <!-- Scripts -->
     <script src="../../../../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../scripts/ver_datos.js"></script>r
+    <script src="../scripts/actualizar_analisis.js"></script>
+    r
   </body>
 </html>
