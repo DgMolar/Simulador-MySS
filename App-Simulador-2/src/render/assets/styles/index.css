@@ -90,3 +90,8 @@ canvas {
     height: 500px; /* Define la altura máxima del contenedor */
     overflow-y: auto; /* Activa el scroll vertical */
   }
+
+
+  #tablaContainer{
+    font-size: 12px;
+  }
