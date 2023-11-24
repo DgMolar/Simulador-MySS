@@ -71,3 +71,22 @@ footer {
     width: 230px;
     height: 250px;
 }
+
+
+/* Estilos específicos para el contenedor del canvas */
+#plot-container, #prediction-container {
+  padding: 20px; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+/* Ajuste de tamaño del canvas */
+canvas {
+  width: 100% !important; 
+  height: auto !important;
+}
+.custom-scroll {
+    height: 500px; /* Define la altura máxima del contenedor */
+    overflow-y: auto; /* Activa el scroll vertical */
+  }
+  

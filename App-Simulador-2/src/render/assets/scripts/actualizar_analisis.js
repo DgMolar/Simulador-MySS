@@ -106,6 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function verDatosGrafica(json) {
   datosTotales(json.length);
+  const dataJson = json;
+  console.log("El data contiene:", dataJson);
+  const ano = dataJson.map((objeto) => objeto.año);
+  console.log("ano:", ano);
 
   const datosPreparadosParaGraficar = processJson(json);
 
@@ -117,27 +121,14 @@ function verDatosGrafica(json) {
         label: "Incidencia de diabetes",
         data: datosPreparadosParaGraficar,
         color: "rgba(255, 99, 132, 1)",
+        borderColor: "#A8C6FA",
       },
     ],
     -100,
-    2000
+    2000,
+    "Grafica para Incidencia de diabetes",
+    ano
   );
-
-  // Verificas si hay un gráfico existente en 'actual-plot'
-  const existingPlotCanvas = document.getElementById("actual-plot");
-  const existingPlotChart = Chart.getChart(existingPlotCanvas);
-
-  if (existingPlotChart) {
-    existingPlotChart.destroy();
-  }
-
-  if (plotContainer.hasChildNodes()) {
-    plotContainer.removeChild(plotContainer.firstChild);
-    const canvas = document.createElement("canvas");
-    canvas.id = "actual-plot";
-    plotContainer.appendChild(canvas);
-  }
-
   new Chart(document.getElementById("actual-plot"), graficaOriginal);
 
   const datosPreparadosParaRegresion = datosPreparadosParaGraficar.map(
@@ -175,24 +166,32 @@ function entrenarModelo(resultadoRegresion) {
     fs.access(dataFilePath, fs.constants.F_OK, (err) => {
       if (err) {
         // El archivo no existe, entonces lo creamos
-        fs.writeFile(dataFilePath, JSON.stringify(resultadoRegresion, null, 2), (err) => {
-          if (err) {
-            console.error("Error al crear el archivo model.json:", err);
-          } else {
-            console.log("Archivo model.json creado correctamente.");
-            alert("Modelo entrenado correctamente");
+        fs.writeFile(
+          dataFilePath,
+          JSON.stringify(resultadoRegresion, null, 2),
+          (err) => {
+            if (err) {
+              console.error("Error al crear el archivo model.json:", err);
+            } else {
+              console.log("Archivo model.json creado correctamente.");
+              alert("Modelo entrenado correctamente");
+            }
           }
-        });
+        );
       } else {
         // El archivo existe, sobrescribimos los model
-        fs.writeFile(dataFilePath, JSON.stringify(resultadoRegresion, null, 2), (err) => {
-          if (err) {
-            console.error("Error al sobrescribir model.json:", err);
-          } else {
-            console.log("Archivo model.json sobrescrito correctamente.");
-            alert("Modelo entrenado correctamente");
+        fs.writeFile(
+          dataFilePath,
+          JSON.stringify(resultadoRegresion, null, 2),
+          (err) => {
+            if (err) {
+              console.error("Error al sobrescribir model.json:", err);
+            } else {
+              console.log("Archivo model.json sobrescrito correctamente.");
+              alert("Modelo entrenado correctamente");
+            }
           }
-        });
+        );
       }
     });
   });

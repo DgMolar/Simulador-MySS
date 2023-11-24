@@ -31,8 +31,42 @@
     <!-- Contenido principal -->
     <div class="container">
       <div class="h1 text-center my-3">Actualizar Datos:</div>
-
       <div class="row">
+        <hr />
+        <div class="col-5"></div>
+        <div class="col-7">
+          <div class="container">
+            <form>
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      id="file-input"
+                      name="archivo"
+                      accept=".csv"
+                      required
+                    />
+                  </div>
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-primary ms-5"
+                      type="submit"
+                      id="file-button"
+                    >
+                      <i class="fas fa-cloud-upload-alt"></i> Cargar datos
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <!-- CARDS -->
         <div class="col-3">
           <div class="card text-white cards-bg mb-3" style="max-width: 100%">
             <div class="card-body">
@@ -62,44 +96,17 @@
             </div>
           </div>
         </div>
-        <div id="canvas-container" class="col-9">
-          <hr />
-          <div id="app">
-            <div class="container mt-4">
-              <form>
-                <div class="form-group">
-                  <div class="input-group mb-3">
-                    <div class="custom-file">
-                      <input
-                        type="file"
-                        class="custom-file-input"
-                        id="file-input"
-                        name="archivo"
-                        accept=".csv"
-                        required
-                      />
-                    </div>
-                    <div class="input-group-append">
-                      <button
-                        class="btn btn-primary ms-5"
-                        type="submit"
-                        id="file-button"
-                      >
-                        <i class="fas fa-cloud-upload-alt"></i> Cargar datos
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <hr />
-            <div id="plot-container" style="width: 500px; margin: 0%">
-              <canvas id="actual-plot"></canvas>
-            </div>
-            <div class="container text-center">
-              <button id="btnEntrenar" class="btn btn-primary">Entrenar modelo</button>
-            </div>
+        <!-- CANVAS -->
+        <div class="col-lg-9 col-md-8 col-sm-12">
+          <div id="plot-container" class="">
+            <canvas id="actual-plot"></canvas>
           </div>
+        </div>
+        <!-- fin de canvas -->
+        <div class="container text-center">
+          <button id="btnEntrenar" class="btn btn-primary mt-5">
+            Entrenar modelo
+          </button>
         </div>
       </div>
     </div>
