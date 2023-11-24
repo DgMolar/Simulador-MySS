@@ -152,34 +152,48 @@ function verDatosGrafica(json) {
     }
   );
 
-  console.log(resultadoRegresion);
-
-  const a = resultadoRegresion.equation[0];
-  const b = resultadoRegresion.equation[1];
-  const c = resultadoRegresion.equation[2];
-  const d = resultadoRegresion.equation[3];
-  const f = resultadoRegresion.equation[4];
-
-  const predict = (x) => {
-    return a * x ** 4 + b * x ** 3 + c * x ** 2 + d * x + f;
-  };
-
-  const datosDelAlgoritmoFormateadosParaGraficar =
-    resultadoRegresion.points.map((item) => {
-      return { x: item[0], y: item[1] };
-    });
-
-  console.log(
-    `La incidencia del siguiente trimestre es ${predict(
-      datosPreparadosParaGraficar.length + 1
-    )}`
-  );
-
-  console.log(`La funcion de regresion es: ${resultadoRegresion.string}`);
+  console.log("ESTE SERA EL MODELO", resultadoRegresion);
+  // Entrenar modelo
+  btnEntrenar = document.getElementById("btnEntrenar");
+  btnEntrenar.addEventListener("click", () => {
+    entrenarModelo(resultadoRegresion);
+    // window.location.reload();
+  });
 }
 
 function datosTotales(totalTrimestres) {
   let mesesRegistrados = totalTrimestres;
   document.getElementById("trimestresRegistrados").value =
     mesesRegistrados + " Trimestres";
+}
+
+function entrenarModelo(resultadoRegresion) {
+  ipcRenderer.invoke("get-user-data-path").then((userDataPath) => {
+    const dataFilePath = path.join(userDataPath, "model.json");
+
+    // Verificar si el archivo models.json existe
+    fs.access(dataFilePath, fs.constants.F_OK, (err) => {
+      if (err) {
+        // El archivo no existe, entonces lo creamos
+        fs.writeFile(dataFilePath, JSON.stringify(resultadoRegresion, null, 2), (err) => {
+          if (err) {
+            console.error("Error al crear el archivo model.json:", err);
+          } else {
+            console.log("Archivo model.json creado correctamente.");
+            alert("Modelo entrenado correctamente");
+          }
+        });
+      } else {
+        // El archivo existe, sobrescribimos los model
+        fs.writeFile(dataFilePath, JSON.stringify(resultadoRegresion, null, 2), (err) => {
+          if (err) {
+            console.error("Error al sobrescribir model.json:", err);
+          } else {
+            console.log("Archivo model.json sobrescrito correctamente.");
+            alert("Modelo entrenado correctamente");
+          }
+        });
+      }
+    });
+  });
 }
