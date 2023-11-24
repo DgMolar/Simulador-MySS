@@ -34,28 +34,28 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("Error al leer el archivo datos.json:", err);
           return;
         } else {
+          console.log("Contenido de datos.json:", data);
           json = JSON.parse(data);
-        }
-      });
-    });
-
-    // Verificar la existencia de model.json
-    fs.access(modelPath, fs.constants.F_OK, (errModel) => {
-      if (errModel) {
-        // Si model.json no existe, mostrar alerta y realizar alguna acción
-        const errorDialog = document.getElementById("errorDialog");
-        errorDialog.innerHTML =
-          '<div class="alert alert-danger d-flex justify-content-center" role="alert">Modelo no entrenado</div>';
-        return;
-      }
-      // Si model.json existe, puedes realizar alguna acción si es necesario
-      fs.readFile(modelPath, "utf8", (err, data) => {
-        if (err) {
-          console.error("Error al leer el archivo model.json:", err);
-          return;
-        } else {
-          modelo = JSON.parse(data);
-          verDatosGrafica(json, modelo);
+          // Verificar la existencia de model.json
+          fs.access(modelPath, fs.constants.F_OK, (errModel) => {
+            if (errModel) {
+              // Si model.json no existe, mostrar alerta y realizar alguna acción
+              const errorDialog = document.getElementById("errorDialog");
+              errorDialog.innerHTML =
+                '<div class="alert alert-danger d-flex justify-content-center" role="alert">Modelo no entrenado</div>';
+              return;
+            }
+            // Si model.json existe, puedes realizar alguna acción si es necesario
+            fs.readFile(modelPath, "utf8", (err, data) => {
+              if (err) {
+                console.error("Error al leer el archivo model.json:", err);
+                return;
+              } else {
+                modelo = JSON.parse(data);
+                verDatosGrafica(json, modelo);
+              }
+            });
+          });
         }
       });
     });
@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function verDatosGrafica(json, modelo) {
-  
   const datosPreparadosParaGraficar = processJson(json);
 
   console.log("Incidencias de diabetes", datosPreparadosParaGraficar);
