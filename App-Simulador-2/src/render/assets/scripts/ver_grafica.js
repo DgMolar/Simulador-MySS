@@ -9,8 +9,14 @@ const path = require("path");
 const { processJson } = require("../../../preprossecing/preprocessing.js");
 const { generateChart } = require("../../../graphs/graphs.js");
 
+// ELEMENTOS DEL DOM
+const modeloActualInput = document.getElementById("modelo-actual-input");
+//
+
+//CACHE
 let json = null;
 let modelo = null;
+//
 
 // cuando el documento se cargue, se ejecutara la funcion
 document.addEventListener("DOMContentLoaded", () => {
@@ -52,7 +58,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
               } else {
                 modelo = JSON.parse(data);
-                verDatosGrafica(json, modelo);
+                const modelFunction = modelo.string;
+                modeloActualInput.value = modelFunction;
+                const jsonGraph = processJson(json);
+                const modelGraph = modelo.points.map((item) => {
+                  return { x: item[0], y: item[1] };
+                });
+                verDatosGrafica(jsonGraph, modelGraph);
+
+                const rmseValue = calculateRmse(jsonGraph, modelGraph);
+
+                console.log("RMSE:", rmseValue);
               }
             });
           });
@@ -62,43 +78,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+/**
+ * @param {Array<{x: number, y: number}>} json
+ * @param {Array<{x: number, y: number}>} modelo
+ */
 function verDatosGrafica(json, modelo) {
-  const datosPreparadosParaGraficar = processJson(json);
-
-  console.log("Incidencias de diabetes", datosPreparadosParaGraficar);
-
-  console.log("Predicciones", modelo);
-
-  const a = modelo.equation[0];
-  const b = modelo.equation[1];
-  const c = modelo.equation[2];
-  const d = modelo.equation[3];
-  const f = modelo.equation[4];
-
-  const predict = (x) => {
-    return a * x ** 4 + b * x ** 3 + c * x ** 2 + d * x + f;
-  };
-
-  const datosDelAlgoritmoFormateadosParaGraficar = modelo.points.map((item) => {
-    return { x: item[0], y: item[1] };
-  });
-
-  const prediccion200 = Array.from(
-    { length: datosPreparadosParaGraficar.length + 2 },
-    (_, i) => {
-      return { x: i + 1, y: predict(i + 1) };
-    }
-  );
   const predictChart = generateChart(
     [
       {
         label: "Prediccion de diabetes",
-        data: datosDelAlgoritmoFormateadosParaGraficar,
+        data: modelo,
         color: "rgba(54, 162, 235, 1)",
       },
       {
         label: "Incidencia de diabetes",
-        data: datosPreparadosParaGraficar,
+        data: json,
         color: "rgba(255, 99, 132, 1)",
       },
     ],
@@ -108,7 +102,17 @@ function verDatosGrafica(json, modelo) {
   const predictionCanvas = document.getElementById("prediction-plot");
 
   new Chart(predictionCanvas, predictChart);
-
-  console.log(`La incidencia del siguiente trimestre es ${predict(36)}`);
-  console.log(`La funcion de regresion es: ${modelo.string}`);
 }
+
+/**
+ *
+ * @param {Array<{x: number, y: number}>} datos
+ * @param {Array<{x: number, y: number}>} modelo
+ */
+const calculateRmse = (datos, modelo) => {
+  const n = datos.length;
+  const sumatoria = datos.reduce((acc, item, index) => {
+    return acc + (item.y - modelo[index].y) ** 2;
+  }, 0);
+  return Math.sqrt(sumatoria / n);
+};

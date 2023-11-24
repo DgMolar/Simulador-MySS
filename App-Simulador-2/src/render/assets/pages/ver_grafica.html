@@ -50,7 +50,7 @@
                   <input
                     type="text"
                     class="form-control text-center"
-                    id="modeloActual"
+                    id="modelo-actual-input"
                     readonly
                   />
                 </div>
@@ -86,10 +86,10 @@
             </div>
           </div>
         </div>
-        <div id="canvas-container" class="col-9">
+        <div id="canvas-container" class="col-6">
           <hr />
           <div id="app">
-            <div id="prediction-container" style="width: 500px">
+            <div id="prediction-container" style="width: 700px">
               <canvas id="prediction-plot"></canvas>
               <div id="errorDialog"></div>
             </div>
@@ -98,6 +98,24 @@
               <p id="texto-funcion"></p>
             </div>
           </div>
+        </div>
+        <div class="col-3">
+          <table style="margin: 1px solid black">
+            <thead>
+              <tr>
+                <th class="text-center">Año</th>
+                <th class="text-center">Trimestre</th>
+                <th class="text-center">Incidencia</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-trimestres">
+              <tr>
+                <td class="text-center">2015</td>
+                <td class="text-center">1</td>
+                <td class="text-center">0.000</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
