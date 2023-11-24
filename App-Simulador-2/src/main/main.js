@@ -13,8 +13,10 @@ app.whenReady().then(() => {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1220,
+    height: 750,
+    minWidth: 1000,
+    minHeight: 600,
     resizable: false,
     webPreferences: {
       nodeIntegration: true,
