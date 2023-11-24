@@ -15,17 +15,17 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    // resizable: false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
       contextIsolation: false,
     },
   });
-  // mainWindow.setMenu(null);
+  mainWindow.setMenu(null);
   mainWindow.maximize();
   mainWindow.loadFile(path.join(__dirname, "../auth/login.html"));
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   if (!fs.existsSync(dbPath)) {
     console.log("La base de datos no existe. Creándola...");

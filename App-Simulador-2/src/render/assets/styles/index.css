@@ -66,6 +66,7 @@ footer {
     /* alinear imagen a la derecha. */
     display: flex;
     justify-content: flex-end;
+    padding: 10px 0 10px 0;
 }
 #manoCorazon{
     width: 230px;

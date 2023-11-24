@@ -1,7 +1,7 @@
 {
   "name": "app-simulador-2",
-  "version": "1.0.6",
-  "description": "Prueba de app",
+  "version": "2.0.0",
+  "description": "Sistema para modelar las incidencias de la diabetes tipo 2 en la poblacion de Nuevo León, México, basado en la prevalencia de la obesidad.",
   "main": "src/main/main.js",
   "scripts": {
     "start": "electron src/main/main.js",
@@ -9,7 +9,7 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder --win --x64"
   },
-  "author": "equipo3",
+  "author": "Equipo-3(MySS)",
   "license": "MIT",
   "devDependencies": {
     "electron": "^27.0.4",
@@ -26,8 +26,8 @@
     "sqlite3": "^5.1.6"
   },
   "build": {
-    "productName": "App-Simulador-v1",
-    "appId": "com.tuempresa.app-simulador-2",
+    "productName": "Simulador de incidencias-v2",
+    "appId": "diego.molardlcr@uanl.edu.mx",
     "directories": {
       "output": "dist"
     },
