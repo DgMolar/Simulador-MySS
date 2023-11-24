@@ -25,7 +25,6 @@ form.addEventListener('submit', async (e) => {
   try {
     const isAuthenticated = await authUser(usernameInput.value, passwordInput.value);
     if (isAuthenticated) {
-      alert("Usuario autenticado. Acceso permitido.");
       // transferir a la pagina principal.
       location.href = '../render/assets/pages/index.html';
     } else {
