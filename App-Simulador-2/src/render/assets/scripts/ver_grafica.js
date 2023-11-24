@@ -146,7 +146,7 @@ function verDatosGrafica(json, modelo, prediccion200) {
   const predictChart = generateChart(
     [
       {
-        label: "Prediccion de diabetes",
+        label: "Predicción de diabetes",
         data: modelo,
         color: "rgba(54, 162, 235, 1)",
         borderColor: "rgba(54, 162, 235, 1)",
@@ -166,7 +166,7 @@ function verDatosGrafica(json, modelo, prediccion200) {
     ],
     -100,
     2000,
-    "Grafica para predicción de diabetes"
+    "Gráfica para predicción de diabetes"
   );
   const predictionCanvas = document.getElementById("prediction-plot");
   const existingChart = Chart.getChart(predictionCanvas); // Obtener el gráfico existente

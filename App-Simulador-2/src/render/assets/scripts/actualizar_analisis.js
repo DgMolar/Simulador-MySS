@@ -126,7 +126,7 @@ function verDatosGrafica(json) {
     ],
     -100,
     2000,
-    "Grafica para Incidencia de diabetes",
+    "Gráfica para Incidencia de diabetes",
     ano
   );
   new Chart(document.getElementById("actual-plot"), graficaOriginal);

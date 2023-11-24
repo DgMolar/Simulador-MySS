@@ -91,7 +91,7 @@ function generateChart(data, ymin, ymax, title, ano) {
           display: true,
           title: {
             display: true,
-            text: "Peronas",
+            text: "Personas",
             color: "black",
             font: {
               family: "Arial",
