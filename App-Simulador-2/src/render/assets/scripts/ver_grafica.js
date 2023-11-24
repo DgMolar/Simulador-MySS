@@ -73,7 +73,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 const modelGraph = modelo.points.map((item) => {
                   return { x: item[0], y: item[1] };
                 });
-                verDatosGrafica(jsonGraph, modelGraph);
+
+                // Graficar periodo indicado
+                let periodoPredecir = 1;
+let prediccion200 = [];
+
+function calcularPrediccion(periodo) {
+  return Array.from(
+    { length: modelGraph.length + periodo },
+    (_, i) => ({ x: i + 1, y: predict(i + 1) })
+  );
+}
+
+const periodoSeleccionado = document.getElementById("periodoIncidencia-selected");
+periodoSeleccionado.addEventListener("change", (event) => {
+  periodoPredecir = parseInt(event.target.value);
+  console.log("El valor seleccionado es", periodoPredecir);
+  prediccion200 = calcularPrediccion(periodoPredecir);
+  verDatosGrafica(jsonGraph, modelGraph, prediccion200);
+});
+
+// Llamada inicial
+prediccion200 = calcularPrediccion(periodoPredecir);
+verDatosGrafica(jsonGraph, modelGraph, prediccion200);
+
 
                 const rmseValue = calculateRmse(jsonGraph, modelGraph);
                 rmsInput = document.getElementById("RMSE-input");
@@ -96,13 +119,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     ).toFixed(2);
                     prediccionIncidenciaInput.value = nuevaPrediccion;
                   });
-
+                  console.log(modelGraph);
                 const btnVerDatos = document.getElementById("btnVerDatos");
                 btnVerDatos.addEventListener("click", async () => {
                   if (tablaActivada === true) {
                     return;
                   } else {
-                    imprimirDatosTabla(json);
+                    imprimirDatosTabla(json,modelGraph);
                     tablaActivada = true;
                   }
                 });
@@ -119,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * @param {Array<{x: number, y: number}>} json
  * @param {Array<{x: number, y: number}>} modelo
  */
-function verDatosGrafica(json, modelo) {
+function verDatosGrafica(json, modelo, prediccion200) {
   const predictChart = generateChart(
     [
       {
@@ -134,12 +157,24 @@ function verDatosGrafica(json, modelo) {
         color: "rgba(255, 99, 132, 1)",
         borderColor: "rgba(255, 99, 132, 1)",
       },
+      {
+        label: "Predicción",
+        data: prediccion200,
+        color: "red",
+        borderColor: "rgba(25, 99, 32, 1)",
+      },
     ],
     -100,
     2000,
     "Grafica para predicción de diabetes"
   );
   const predictionCanvas = document.getElementById("prediction-plot");
+  const existingChart = Chart.getChart(predictionCanvas); // Obtener el gráfico existente
+
+  // Si ya existe un gráfico, se destruye antes de dibujar uno nuevo
+  if (existingChart) {
+    existingChart.destroy();
+  }
 
   new Chart(predictionCanvas, predictChart);
 }
@@ -157,25 +192,36 @@ const calculateRmse = (datos, modelo) => {
   return Math.sqrt(sumatoria / n);
 };
 
-function imprimirDatosTabla(json) {
-  tablaContenido = document.getElementById("datosTabla");
+async function imprimirDatosTabla(json, modelGraph) {
+  const tablaContenido = document.getElementById("datosTabla");
   try {
-    json.map((objeto) => {
-      const tomaData = document.createElement("tr");
-      tomaData.innerHTML = icomponentDatosTabla(objeto);
-      tablaContenido.append(tomaData);
+    if (json.length !== modelGraph.length) {
+      throw new Error("Los arrays no tienen la misma longitud");
+    }
+
+    const filas = json.map(async (objeto, index) => {
+      const numero = modelGraph[index];
+      const contenido = await icomponentDatosTabla(objeto, numero);
+      return contenido;
     });
+
+    for (const contenidoPromise of filas) {
+      const contenido = await contenidoPromise;
+      const tomaData = document.createElement("tr");
+      tomaData.innerHTML = contenido;
+      tablaContenido.append(tomaData);
+    }
   } catch (error) {
     console.log("Error al imprimir datos en la tabla", error);
   }
 }
 
-function icomponentDatosTabla({ trimestre, año, casosDeDiabetes }) {
+async function icomponentDatosTabla({ trimestre, año }, { y }) {
   return `
     <tr>
       <td>${año}</td>
       <td>${trimestre}</td>
-      <td>${casosDeDiabetes}</td>
+      <td>${y}</td>
     </tr>
   `;
 }
