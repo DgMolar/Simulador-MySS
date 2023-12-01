@@ -91,7 +91,7 @@ function generateChart(data, ymin, ymax, title, ano) {
           display: true,
           title: {
             display: true,
-            text: "Personas",
+            text: "Tasa de incidencias de diabetes",
             color: "black",
             font: {
               family: "Arial",
